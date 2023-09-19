@@ -2,8 +2,11 @@ import React, { useState, useEffect } from "react";
 import $ from "jquery";
 import { Link } from "react-router-dom";
 import '../components/Navbar.css'
+// import React from 'react';
+import { SignedIn, SignedOut, SignInButton, SignInWithMetamaskButton, UserButton, useUser } from '@clerk/clerk-react';
 
 function Navbar() {
+  const { user } = useUser();
   const [activeTab, setActiveTab] = useState(null);
 
   useEffect(() => {
@@ -133,8 +136,15 @@ function Navbar() {
 
 
           <div className="text-container1">
-          <a href="">Signup</a>
-          <a href="">Signup</a>
+          <SignedIn>
+        {user && <div>{user.web3Wallets[0].web3Wallet}</div>}
+        <UserButton afterSignOutUrl={window.location.href} />
+     
+      </SignedIn>
+      <SignedOut>
+        <SignInButton mode='modal' />
+        <SignInWithMetamaskButton mode='popup' /> 
+      </SignedOut>
           </div>
 
 
